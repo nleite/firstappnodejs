@@ -131,8 +131,8 @@ var readNearest = function(db, cb){
 var aggregateAvgAgeGender = function( db, cb){
     //{age:XX, name:"user name", gender: "M/F"}
     var pipeline = [
-        {$match:{"age": $gt: 18}},
-        {$group: { "_id": "$gender", avg_age: {$avg: "$age"}}},
+        {$match:{"age": {"$gt": 18}}},
+        {$group: { "_id": "$gender", avg_age: {"$avg": "$age"}}},
         {$project:{"ID": "$_id", }}
     ];
     var coll = db.collection("users");
