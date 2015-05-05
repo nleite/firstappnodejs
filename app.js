@@ -139,8 +139,11 @@ var aggregateAvgAgeGender = function( db, cb){
     coll.aggregate(pipeline, function( err, cursor){
         assert.equal(err, null);
         cursor.forEach( function(x){
-            console.log("Gender " + x._id + " age average of " + x.avg_age)});
-        cb(cursor);
+            console.log("Gender " + x._id + " age average of " + x.avg_age)},
+            function(x){
+                cb(cursor);    
+            });
+        
     });
 }
 
