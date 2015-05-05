@@ -14,7 +14,7 @@ MongoClient.connect(uri, function(err, db){
 var insertDocuments = function(db, cb){
     //we don't need to explicitly create a collection 
     var collection = db.collection('myCollection');
-    collection.insert([
+    collection.insertMany([
         {"mongodb": "is just awesome"},
         {"nodejs": "so awesome"}
         ], function(err, result){
@@ -28,7 +28,7 @@ var insertDocuments = function(db, cb){
 
 var removeDocument = function(db, cb){
     var collection = db.collection("myCollection");
-    collection.remove( {"users": "nleite"},
+    collection.removeOne( {"users": "nleite"},
         function( err, result){
             assert.equal(null, err);
             assert.equal(1, result.result.n);
@@ -40,7 +40,7 @@ var removeDocument = function(db, cb){
 
 var updateDocument = function(db, cb){
     var collection = db.collection("myCollection");
-    collection.update( {"mongodb": "is just awesome"},
+    collection.updateOne( {"mongodb": "is just awesome"},
         {$set: {"users": ["nleite"]}}, function( err, result){
             assert.equal(null, err);
             assert.equal(1, result.result.n);
@@ -69,7 +69,7 @@ var insertDifferentShapes = function(db, cb){
         {"nodejs":10}, {"java":15}, {"python":11}]};
     var doc2 = {"name": "Bryan", "webinars": 30};
     var coll = db.collection("content")
-    coll.insert( [doc1, doc2], function(err, result){
+    coll.insertMany( [doc1, doc2], function(err, result){
         assert.equal(err, null);
         assert.equal(2, result.result.n);
 
@@ -85,7 +85,7 @@ var insertSuperImportant = function(db, cb){
 
     var writeConcern = {"w": "majority"};
 
-    col.insert( customer, writeConcern, function(err, result){
+    col.insertOne( customer, writeConcern, function(err, result){
         assert.equal(err, null);
         assert.equal(1, result.result.n);
 
@@ -101,7 +101,7 @@ var updateNormal = function(skuId, db, cb){
     var incrementLike = {$set: {$inc:{ "like": 1 }}};
     var query = {"sku_id": skuId};
 
-    coll.update( query, incrementLike, function(err, result){
+    coll.updateOne( query, incrementLike, function(err, result){
         assert.equal(err, null);
         assert.equal(1, result.result.n);
 
